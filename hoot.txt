@@ -1,0 +1,248 @@
+[component]
+import React, { createContext, useContext, useState } from "react";
+import Nav from "./Component/Nav";
+import Rout from "./Component/Rout";
+import "./Component/nav.css";
+import { BrowserRouter, Route } from "react-router-dom";
+import Footer from './Component/Footer'
+import productDetail from './Component/ProductDetail';
+
+// const appContext = createContext({product: [], setProduct: (search) => {}});
+
+
+const App = () => {
+  
+   
+  // product Detail
+  const [detail, setDetail] = useState([])
+  // filter Product
+  const [product, setProduct] = useState(productDetail)
+
+  // function filterProduct(search) {
+  //   if (search) setProduct(productDetail.filter((product) => product.key.startswith(search)));
+  //   else setProduct(productDetail);
+  // }
+  
+
+  const searchBtn = (product) => 
+  {
+    const Change = productDetail.filter((x) => 
+    {
+      return x.Cat === product
+    })
+    setProduct(Change)
+  }
+  // product Detail
+const view = (product) =>
+{
+  setDetail([{product}])
+}
+  return ( 
+    <>
+   
+    <BrowserRouter>
+    {/* <appContext.Provider value={{product, setProduct: filterProduct }}> */}
+    <Nav searchBtn={searchBtn} />
+    <Rout product={product} setProduct={setProduct} detail={detail} view={view} />            
+    <Footer />
+    {/* </appContext.Provider>; */}
+    </BrowserRouter>
+   
+   
+     </>
+  );
+}
+
+export default App;
+ 
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+[components]
+import React from "react";
+import Nav from "./Components/Nav";
+import './Components/Nav.css';
+import {BrowserRouter} from 'react-router-dom';
+import Rout from "./Components/Rout";
+const App = () => {
+
+  return(
+    <>
+    <BrowserRouter >
+    <Nav/>
+    <Rout />
+    </BrowserRouter>
+    </>
+
+  ) 
+  
+  
+}
+
+export default App;
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+[component ف ملف]
+
+[product.js]
+
+import React from "react";
+import { AiOutlineShoppingCart } from "react-icons/ai";
+import { BsEye } from "react-icons/bs";
+import { AiOutlineHeart } from "react-icons/ai";
+import productDetail from './ProductDetail';
+
+
+import './Product.css';
+const Product = ({Product, setProduct, detail, view }) => {
+
+  const filtterproduct = (Product) => 
+  {
+    const update = productDetail.filter((x) =>
+     {
+      return x.Cat === Product;
+    })
+    setProduct(update);
+
+  }
+  const AllProducts = () => 
+  {
+    setProduct(productDetail)
+  }
+    return ( 
+        <>
+        <div className="Product_detail">
+        <div className="container">
+          {
+            detail.map((curElm) => 
+            {
+              return(
+                <div className="productBox">
+                  <div className="img-box">
+                    <img src={curElm.Img} alt={curElm.Title}></img>
+                  </div>
+                <div className="detail">
+                  <h4>{curElm.Cat}</h4>
+                  <h2>{curElm.Title}</h2>
+                  <p>Barragan is ranked #2 among the Espada, marking him as a truly powerful hollow under </p>
+                  <h3>{curElm.Price}</h3>
+                  <button>Add To cart</button>
+                </div>
+
+                </div>
+
+              )
+            })
+          }
+        <div className="productBtn"></div>
+
+        </div>
+
+        </div>
+          <div className="products">
+          <h2># products</h2>
+          <p>Home . products </p>
+          <div className="container">
+          <div className="filter">
+          <div className="categories">
+            <h3>categories</h3>
+           <ul>
+         <li onClick={() => AllProducts ()}>All Products</li>
+            <li onClick={() => filtterproduct ("Tablet")}>Tablet</li>
+            <li onClick={() => filtterproduct ("Smart Watch")}>Smart Watch</li>
+            <li onClick={() => filtterproduct ("Headphone")}>Headphone</li>
+            <li onClick={() => filtterproduct ("iphone11")}>iphone11</li>
+            <li onClick={() => filtterproduct ("Gaming")}>Gaming</li>
+           </ul>
+         </div>
+         </div>
+         <div className='productBox'>
+          <div className='contant'>
+            {
+              Product.map((curElm) => 
+              {
+                return(
+                  <>
+            <div className='box' key={curElm.id}>
+            <div className="img_box">
+               <img src={curElm.Img} alt={curElm.Title}></img>
+            <div className='icon'>
+               <li><AiOutlineShoppingCart /></li>
+               <li onClick={() => view (curElm)}><BsEye /></li>
+               <li><AiOutlineHeart /></li>
+            </div> 
+            </div> 
+           <div className="detail">
+            <p>{curElm.Cat}</p>
+            <h3>{curElm.Title}</h3>
+            <h4>{curElm.Price}</h4>
+            </div> 
+            </div> 
+                  </>
+                )
+              })
+            }
+            
+          </div>
+         </div>
+        </div>
+      </div>
+        </>
+    )
+}
+
+export default  Product;
+
+
+
+
+
+
+
+
+
+[Rout.js]
+
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Home from "./Home";
+import Product from  "./Product";
+
+
+
+const Rout = ({Products= Product, setProduct, detail, view }) => {
+    return (
+   <>
+   <Routes>
+      <Route path='/' element={<Home />} />
+      <Route path='/Products' element={<Product Product={Product}/>} />
+      <Route path='/products' element={<Product Product={Product} setProduct={setProduct} detail={detail} view={view}  />} />
+   </Routes>
+   </>
+    )
+}
+
+export default Rout;
