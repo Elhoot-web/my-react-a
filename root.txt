@@ -1,0 +1,40 @@
+
+https://react-ecommerce-contact-1b992-default-rtdb.firebaseio.com/
+
+
+
+(Search)
+
+{App}
+// const appContext = createContext({product: [], setProduct: (search) => {}});
+
+ // function filterProduct(search) {
+  //   if (search) setProduct(productDetail.filter((product) => product.key.startswith(search)));
+  //   else setProduct(productDetail);
+  // }
+
+
+
+    {/* <appContext.Provider value={{product, setProduct: filterProduct }}> */}
+
+    {/* </appContext.Provider>; */}
+
+
+
+
+
+{product}
+import React, { useContext, appContext, setProduct, useState } from "react";
+
+// const {Product} = useContext(appContext);
+
+
+return(
+    <>
+
+    {/* \\\\\\ */}
+    {/* {Product.map((product) => (
+      <p key={product.id}>{product.Title}</p>
+    ))}
+       */}
+)

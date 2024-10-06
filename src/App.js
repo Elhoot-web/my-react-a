@@ -1,55 +1,82 @@
-import React, { createContext, useContext, useState } from "react";
-import Nav from "./Component/Nav";
-import Rout from "./Component/Rout";
-import "./Component/nav.css";
-import { BrowserRouter, Route } from "react-router-dom";
-import Footer from './Component/Footer'
-import productDetail from './Component/ProductDetail';
-
-// const appContext = createContext({product: [], setProduct: (search) => {}});
+import React, { useState } from "react";
+import Nav from "./Components/Nav";
+import './Components/Nav.css';
+import {BrowserRouter} from 'react-router-dom';
+import Rout from "./Components/Rout";
+import Footer from './Components/Footer';
+import Products from './Components/Products';
 
 
 const App = () => {
-  
-   
-  // product Detail
-  const [detail, setDetail] = useState([])
-  // filter Product
-  const [product, setProduct] = useState(productDetail)
-
-  // function filterProduct(search) {
-  //   if (search) setProduct(productDetail.filter((product) => product.key.startswith(search)));
-  //   else setProduct(productDetail);
-  // }
-  
-
-  const searchBtn = (product) => 
-  {
-    const Change = productDetail.filter((x) => 
-    {
-      return x.Cat === product
-    })
-    setProduct(Change)
-  }
-  // product Detail
-const view = (product) =>
+  //Add To cart
+  const [cart, setCart] = useState([])
+//shop page product
+const [Shop, setShop] = useState(Products)
+//Shop search filter
+const [search, setSearch] = useState('')
+//Shop category filter
+const Filter = (x) =>
 {
-  setDetail([{product}])
+  const cateFilter = Products.filter((products) =>
+   {
+     return products.cat === x
+  })
+  setShop(cateFilter)
 }
-  return ( 
+const allcateFilter = () =>
+{
+  setShop(Products)
+}
+//Shop search filter
+const searchlength =(search || []).length === 0
+const searchproduct = () =>
+{
+if(searchlength)
+{
+  alert("Please Search Something !")
+  setShop(Products)
+}
+else
+{ 
+      const searchFilter = Products.filter((x) => 
+      {
+       return x.cat === search
+      })
+      setShop(searchFilter)
+   } 
+}
+//Add To Cart
+const addtocart = (product) =>
+{
+  const exist = cart.find((x) => {
+    return x.id === product.id
+  })
+  if(exist)
+  {
+    alert("This product is alleardy added in cart Elhoot")
+  }
+  else
+  {
+  setCart([...cart, {...product, qty:1}])
+  alert("Added To cart Elhoot ")
+    
+  }
+}
+  //  console.log(cart);
+  return(
     <>
-   
-    <BrowserRouter>
-    {/* <appContext.Provider value={{product, setProduct: filterProduct }}> */}
-    <Nav searchBtn={searchBtn} />
-    <Rout product={product} setProduct={setProduct} detail={detail} view={view} />            
+    <BrowserRouter >
+    <Nav search={search} setSearch={setSearch} searchproduct={searchproduct}/>
+    <Rout setCart={setCart} cart={cart} shop={Shop} Filter={Filter} allcateFilter={allcateFilter} addtocart={addtocart}/>
     <Footer />
-    {/* </appContext.Provider>; */}
     </BrowserRouter>
-   
-   
-     </>
-  );
+    </>
+
+  ) 
+  
+  
 }
 
 export default App;
+ 
+

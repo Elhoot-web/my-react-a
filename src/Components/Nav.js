@@ -5,11 +5,8 @@ import { FiLogIn } from "react-icons/fi";
 import { CiLogout, CiUser  } from "react-icons/ci";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from 'react-router-dom';
-
-
-
 import './Nav.css';
-const Nav = () => {
+const Nav = ({search, setSearch, searchproduct}) => {
 const { loginWithRedirect, logout, user, isAuthenticated  } = useAuth0();
     return (
         <>
@@ -24,11 +21,11 @@ const { loginWithRedirect, logout, user, isAuthenticated  } = useAuth0();
          </div>
          <div className='mid_header'>
          <div className='logo'>
-          <img src='image/logo.webp' alt='logo'></img>
+          <img src='imgs/logo.webp' alt='logo'></img>
          </div>
          <div className='search_box'>
-            <input type='text' value='' placeholder='search'></input>
-            <button><AiOutlineSearch /></button>
+            <input type='text' value={search} placeholder='search' onChange={(e) => setSearch(e.target.value)}></input>
+            <button onClick={searchproduct}><AiOutlineSearch /></button>
          </div>
          {
           isAuthenticated ?
@@ -82,7 +79,7 @@ const { loginWithRedirect, logout, user, isAuthenticated  } = useAuth0();
           <ul>
             <li><Link to='/' className='link'>Home</Link></li>
             <li><Link to='/shop' className='link'>Shop</Link></li>
-            <li><Link to='/collection' className='link'>Collection</Link></li>
+            <li><Link to='/Cart' className='link'>Cart</Link></li>
             <li><Link to='/about' className='link'>About</Link></li>
             <li><Link to='/contact' className='link'>Contact</Link></li>
           </ul>
